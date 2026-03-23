@@ -1,0 +1,12 @@
+FROM ubuntu:14.04
+
+RUN apt-get update
+RUN apt-get install -y apache2
+
+
+COPY cors_read.html /var/www/html/cors_read.html
+COPY start.sh /start.sh
+RUN chmod +x /start.sh
+
+EXPOSE 80 
+CMD ["/start.sh"]

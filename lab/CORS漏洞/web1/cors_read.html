@@ -1,0 +1,18 @@
+
+<script>
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', 'http://127.0.0.1:8971/web/cors.php', true);
+
+    // If specified, responseType must be empty string or "text"
+    xhr.responseType = 'text';
+    xhr.onload = function () {
+        if (xhr.readyState === xhr.DONE) {
+            if (xhr.status === 200) {
+                document.write(xhr.responseText);
+            }
+        }
+    };
+
+    xhr.send(null);
+</script>
+

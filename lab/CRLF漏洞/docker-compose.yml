@@ -1,0 +1,8 @@
+version: "3"
+services:
+  crlf:
+    image: th3n4t0s/php4.4
+    ports: 
+      - "8115:80"
+    volumes:
+    - ./www/:/var/www/html/

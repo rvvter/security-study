@@ -1,0 +1,20 @@
+version: "3"
+
+services:
+  web:
+    build: .
+    expose:
+      - "80"
+    ports:
+      - "8983:80"
+    restart: always
+    command: sh start.sh
+  web1:
+    build: web1
+    expose:
+      - "80"
+    ports:
+      - "8984:80"
+    restart: always
+    command: sh start.sh
+
