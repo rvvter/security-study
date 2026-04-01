@@ -42,7 +42,7 @@ docker run -d -p 8080:8080 medicean/vulapps:s_shiro_1
 
 访问 `http://靶机IP:8080`，出现 Shiro 登录页面即环境部署成功。
 
-![image-20260326165438389](../images/image-20260326165438389.png)
+![image-20260401225909431](../images/image-20260401225909431.png)
 
 ## 四、漏洞复现步骤
 
@@ -54,7 +54,7 @@ docker run -d -p 8080:8080 medicean/vulapps:s_shiro_1
 
 2. 抓包查看响应头，若存在 `rememberMe=deleteMe` 字段，**大概率存在漏洞**。
 
-   ![image-20260326171935321](../images/image-20260326171935321.png)
+   ![image-20260401230646289](../images/image-20260401230646289.png)
 
 ### 第二步：准备工具
 
@@ -68,7 +68,7 @@ docker run -d -p 8080:8080 medicean/vulapps:s_shiro_1
 
 3. 准备Java8
 
-   ![image-20260326174144837](../images/image-20260326174144837.png)
+   ![image-20260401230814341](../images/image-20260401230814341.png)
 
 ### 第三步：生成恶意 Payload
 
@@ -81,7 +81,7 @@ java -jar ysoserial-all.jar CommonsCollections5 "touch /tmp/success" > payload.b
 
 > 说明：Shiro 1.2.4 常用利用链：`CommonsCollections2`/`CommonsCollections5`/`CommonsCollections6`。
 
-![image-20260326182209530](../images/image-20260326182209530.png)
+![image-20260401230850611](../images/image-20260401230850611.png)
 
 ### 第四步：加密 Payload（Python 脚本）
 
@@ -95,8 +95,8 @@ import requests
 
 # Shiro 1.2.4 默认密钥
 KEY = "kPH+bIxk5D2deZiIxcaaaA=="
-# 靶机地址
-URL = "http://靶机IP:8080/login.jsp"
+# 靶机地址 注意替换成自己的
+URL = "http://靶机IP:8080/doLogin"
 
 # AES 加密函数
 def aes_encrypt(data, key):
@@ -139,6 +139,8 @@ pip install pycryptodome requests
 
 运行 Python 脚本，发送加密后的 Cookie。
 
+![image-20260401231437174](../images/image-20260401231437174.png)
+
 **验证命令执行**：进入靶机 Docker 容器，查看 `/tmp` 目录
 
 ```
@@ -152,15 +154,17 @@ ls /tmp
 
 若出现 `success` 文件，说明漏洞复现成功！
 
+![image-20260401232147218](../images/image-20260401232147218.png)
+
 ## 方法二：
 
 打开ShiroAttack，并输入靶机url
 
-<img src="../images/image-20260326181506385.png" alt="image-20260326181506385" style="zoom:67%;" />
+![image-20260401232359127](../images/image-20260401232359127.png)
 
 开始命令执行
 
-<img src="../images/image-20260326182009318.png" alt="image-20260326182009318" style="zoom: 67%;" />
+![image-20260401232524546](../images/image-20260401232524546.png)
 
 ## 五、漏洞防御方案
 
